@@ -15,6 +15,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
   // Check authentication status on app load
   useEffect(() => {
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/me`
+        `${BACKEND_URL}/api/users/me`
       );
 
       if (response.data) {

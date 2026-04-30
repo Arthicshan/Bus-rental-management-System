@@ -70,7 +70,8 @@ const Chatbot = () => {
         content: msg.text
       }));
 
-      const response = await axios.post('http://localhost:3000/api/chatbot/chat-smart', {
+      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+      const response = await axios.post(`${BACKEND_URL}/api/chatbot/chat-smart`, {
         message: inputMessage,
         conversationHistory
       });
