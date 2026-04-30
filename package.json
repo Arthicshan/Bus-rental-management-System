@@ -1,12 +1,12 @@
-{
+﻿{
   "name": "bus-rental-management-system",
   "version": "1.0.0",
   "description": "Full-stack Bus Rental Management System",
   "private": true,
   "scripts": {
     "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
-    "build": "npm --prefix frontend run build",
+    "build": "npm --prefix frontend run build && npm --prefix backend run build",
+    "dev": "concurrently npm --prefix backend run dev npm --prefix frontend run dev",
     "start": "npm --prefix backend start"
   },
   "devDependencies": {
