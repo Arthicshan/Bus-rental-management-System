@@ -1,5 +1,17 @@
 // API Configuration for Frontend
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+// For Vercel monorepo deployment, backend is at /_/backend
+// For local development, use VITE_BACKEND_URL
+
+const getAPIBaseURL = () => {
+  // Check if we're in production (Vercel)
+  if (import.meta.env.PROD) {
+    return '/_/backend';
+  }
+  // For development, use environment variable or fallback to localhost
+  return import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+};
+
+const API_BASE_URL = getAPIBaseURL();
 
 export const API = {
   BASE: API_BASE_URL,

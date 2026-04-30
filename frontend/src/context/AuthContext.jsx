@@ -1,6 +1,7 @@
 // src/context/AuthContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import getBackendURL from '../utils/getBackendURL';
 
 const AuthContext = createContext();
 
@@ -15,7 +16,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+  const BACKEND_URL = getBackendURL();
 
   // Check authentication status on app load
   useEffect(() => {
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }) => {
       console.log('🔐 Login attempt with:', credentials);
       
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
+        `${BACKEND_URL}/api/auth/login`,
         credentials
       );
       
@@ -99,7 +100,7 @@ export const AuthProvider = ({ children }) => {
       console.log('📝 Registration attempt with:', userData);
       
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/auth/register`,
+        `${BACKEND_URL}/api/auth/register`,
         userData
       );
       

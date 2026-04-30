@@ -1,13 +1,41 @@
 # Vercel Deployment Guide - Bus Rental Management System
 
+## ⭐ Updated with experimentalServices Configuration
+
+This project now uses **Vercel's experimentalServices** for proper monorepo deployment:
+
+```json
+{
+  "experimentalServices": {
+    "frontend": {
+      "entrypoint": "frontend",
+      "routePrefix": "/",
+      "framework": "vite"
+    },
+    "backend": {
+      "entrypoint": "backend",
+      "routePrefix": "/_/backend"
+    }
+  }
+}
+```
+
+### How It Works:
+- **Frontend** served at: `/` (Vite build)
+- **Backend API** served at: `/_/backend`
+- **No CORS issues** - same domain
+- **Smart URL detection** - uses `/_/backend` on Vercel, `http://localhost:5000` locally
+
+---
+
 ## Pre-Deployment Checklist ✅
 
 ### What Has Been Fixed:
 1. ✅ Backend package.json - removed typo (`expres`), moved `nodemon` to devDependencies
 2. ✅ Frontend package.json - removed invalid `import` package
-3. ✅ Created `vercel.json` with proper build and rewrites configuration
-4. ✅ Created `api/index.js` for serverless API routing
-5. ✅ Fixed hardcoded localhost URLs in:
+3. ✅ Created `vercel.json` with experimentalServices configuration
+4. ✅ Created `getBackendURL.js` helper for smart URL detection
+5. ✅ Fixed all hardcoded localhost URLs in:
    - Chatbot.jsx
    - SimpleTravelSuggestions.jsx
    - QRScanner.jsx

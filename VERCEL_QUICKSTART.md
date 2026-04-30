@@ -1,16 +1,27 @@
-# 🚀 Quick Start: Deploy to Vercel
+# 🚀 Quick Start: Deploy to Vercel (Monorepo)
+
+## ⭐ Updated Configuration
+
+Your project now uses **Vercel's experimentalServices** for optimal monorepo deployment!
+
+### Architecture:
+```
+Vercel Domain
+├── / (Frontend - Vite)
+└── /_/backend (Backend - Node.js)
+```
 
 ## What's Ready ✅
 
-All critical errors have been fixed and your project is optimized for Vercel deployment!
+### Configuration Files:
+- ✅ `vercel.json` - experimentalServices setup
+- ✅ `getBackendURL.js` - Smart URL detection for dev/prod
 
-### Fixed Issues:
-- ❌ Typo in backend package.json (`expres`) → ✅ Removed
-- ❌ Hardcoded localhost URLs → ✅ Fixed (now use VITE_BACKEND_URL)
-- ❌ Invalid frontend packages → ✅ Removed
-- ❌ Missing Vercel configuration → ✅ Created vercel.json
-- ❌ No API handler for serverless → ✅ Created api/index.js
-- ❌ Slow build/startup → ✅ Optimized Vite config
+### Code Fixes:
+- ✅ Hardcoded localhost URLs removed
+- ✅ Dynamic backend URL routing
+- ✅ Production-ready environment detection
+- ✅ TypeErrors in packages fixed
 
 ---
 

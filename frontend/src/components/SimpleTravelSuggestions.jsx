@@ -16,8 +16,8 @@ const SimpleTravelSuggestions = ({ destination, onClose }) => {
   const fetchSuggestions = async () => {
     setLoading(true);
     try {
-      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-      const response = await axios.get(`${BACKEND_URL}/api/real-places/destination?destination=${destination}`);
+      const getBackendURL = () => import.meta.env.PROD ? '/_/backend' : (import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000');
+      const response = await axios.get(`${getBackendURL()}/api/real-places/destination?destination=${destination}`);
       if (response.data.success) {
         setSuggestions({
           attractions: response.data.data.attractions.places || [],

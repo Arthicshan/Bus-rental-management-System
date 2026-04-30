@@ -70,8 +70,8 @@ const Chatbot = () => {
         content: msg.text
       }));
 
-      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-      const response = await axios.post(`${BACKEND_URL}/api/chatbot/chat-smart`, {
+      const getBackendURL = () => import.meta.env.PROD ? '/_/backend' : (import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000');
+      const response = await axios.post(`${getBackendURL()}/api/chatbot/chat-smart`, {
         message: inputMessage,
         conversationHistory
       });

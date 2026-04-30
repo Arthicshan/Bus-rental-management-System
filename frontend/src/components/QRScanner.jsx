@@ -15,8 +15,8 @@ const QrScanner = () => {
   const sendToBackend = async (qrData) => {
     setError(null); // Clear previous errors
     try {
-      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-      const response = await fetch(`${BACKEND_URL}/api/process-qr`, { // Adjust port if needed
+      const getBackendURL = () => import.meta.env.PROD ? '/_/backend' : (import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000');
+      const response = await fetch(`${getBackendURL()}/api/process-qr`, { // Adjust port if needed
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
