@@ -52,7 +52,7 @@ const RegisterPage = () => {
   // NIC validation regex - 9 digits + V or 12 digits
   const nicRegex = /^\d{9}[Vv]$|^\d{12}$/;
   // Password validation - at least 8 chars, 1 lowercase, 1 number, 1 special char
-  const passwordRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]).{8,}$/;
 
   // Password strength calculator
   const calculatePasswordStrength = (password) => {
@@ -65,7 +65,7 @@ const RegisterPage = () => {
     // Character variety checks
     if (/[a-z]/.test(password)) strength += 1;
     if (/[0-9]/.test(password)) strength += 2;
-    if (/[@$!%*?&]/.test(password)) strength += 1;
+    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password)) strength += 1;
 
     return Math.min(strength, 5); // Max strength is 5
   };
@@ -734,8 +734,8 @@ const RegisterPage = () => {
                         <p className={/[a-z]/.test(formData.password) ? 'text-green-600' : 'text-red-600'}>
                           • Lowercase {/[a-z]/.test(formData.password) ? '✓' : '✗'}
                         </p>
-                        <p className={/[@$!%*?&]/.test(formData.password) ? 'text-green-600' : 'text-red-600'}>
-                          • Special char {/[@$!%*?&]/.test(formData.password) ? '✓' : '✗'}
+                        <p className={/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(formData.password) ? 'text-green-600' : 'text-red-600'}>
+                          • Special char {/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(formData.password) ? '✓' : '✗'}
                         </p>
                       </div>
                     </div>
