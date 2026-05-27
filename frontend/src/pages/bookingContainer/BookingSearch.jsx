@@ -282,18 +282,47 @@ const BookingSearch = () => {
               {/* Passengers */}
               <div className="lg:col-span-2">
                 <label className="text-slate-700 text-sm font-medium mb-2 block">Passengers</label>
-                <div className="relative">
-                  <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-500" />
+                <div className="relative flex items-center">
+                  <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-500 z-10" />
+                  <button
+                    type="button"
+                    onClick={() => handleInputChange('passengers', Math.max(1, searchData.passengers - 1))}
+                    className="absolute right-12 top-1/2 transform -translate-y-1/2 w-7 h-7 flex items-center justify-center bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition-colors font-bold text-lg z-10"
+                  >
+                    −
+                  </button>
                   <input
                     type="number"
                     min="1"
                     max="50"
                     value={searchData.passengers}
-                    onChange={(e) => handleInputChange('passengers', parseInt(e.target.value) || 1)}
-                    className="w-full pl-10 pr-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-                    placeholder="Number of passengers (1-50)"
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val === '') {
+                        handleInputChange('passengers', '');
+                      } else {
+                        const num = parseInt(val);
+                        if (!isNaN(num) && num >= 1 && num <= 50) {
+                          handleInputChange('passengers', num);
+                        }
+                      }
+                    }}
+                    onBlur={(e) => {
+                      const num = parseInt(e.target.value);
+                      if (!num || num < 1) handleInputChange('passengers', 1);
+                      if (num > 50) handleInputChange('passengers', 50);
+                    }}
+                    className="w-full pl-10 pr-20 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-center"
+                    placeholder="1-50"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => handleInputChange('passengers', Math.min(50, searchData.passengers + 1))}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-7 h-7 flex items-center justify-center bg-sky-500 hover:bg-sky-600 text-white rounded-lg transition-colors font-bold text-lg z-10"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
 
