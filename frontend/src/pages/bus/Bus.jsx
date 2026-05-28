@@ -15,6 +15,16 @@ import {
   Image as ImageIcon
 } from 'lucide-react';
 import Bus1 from "../../../src/assets/bus1.png";
+import LuxuryBusImg from "../../assets/luxury_bus.png";
+import DeluxeBusImg from "../../assets/deluxe_bus.png";
+import StandardBusImg from "../../assets/standard_bus.png";
+import MiniBusImg from "../../assets/mini_bus.png";
+import DoubleDeckBusImg from "../../assets/double_decker_bus.png";
+import ScaniaLuxuryImg from "../../assets/scania_luxury_bus.png";
+import TataDeluxeImg from "../../assets/tata_deluxe_bus.png";
+import TataStandardImg from "../../assets/tata_standard_bus.png";
+import NissanMiniImg from "../../assets/nissan_mini_bus.png";
+import VolvoDoubleDeckImg from "../../assets/volvo_doubledecker_bus.png";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
@@ -116,8 +126,36 @@ const Bus = () => {
     }
   };
 
-  const getBusImage = (busType) => {
-    return Bus1;
+  const getBusImage = (busType, brand) => {
+    // Map unique images by brand first, then fall back to bus type
+    const brandImageMap = {
+      'Volvo_Luxury': LuxuryBusImg,
+      'Scania': ScaniaLuxuryImg,
+      'Ashok Leyland': DeluxeBusImg,
+      'Tata_Deluxe': TataDeluxeImg,
+      'Lanka Ashok Leyland': StandardBusImg,
+      'Tata_Standard': TataStandardImg,
+      'Toyota': MiniBusImg,
+      'Nissan': NissanMiniImg,
+      'Alexander Dennis': DoubleDeckBusImg,
+      'Volvo_Double Decker': VolvoDoubleDeckImg
+    };
+
+    // Try brand + type combo first (for brands like Volvo/Tata that appear in multiple types)
+    const brandTypeKey = `${brand}_${busType}`;
+    if (brandImageMap[brandTypeKey]) return brandImageMap[brandTypeKey];
+    // Then try brand alone
+    if (brandImageMap[brand]) return brandImageMap[brand];
+
+    // Fall back to type-based image
+    const typeImageMap = {
+      'Luxury': LuxuryBusImg,
+      'Deluxe': DeluxeBusImg,
+      'Standard': StandardBusImg,
+      'Mini': MiniBusImg,
+      'Double Decker': DoubleDeckBusImg
+    };
+    return typeImageMap[busType] || Bus1;
   };
 
   // Handle image loading errors
@@ -288,10 +326,11 @@ const Bus = () => {
                     )}
                   </div>
                 ) : (
-                  <div className="w-full h-48 bg-gray-100 rounded-xl flex flex-col items-center justify-center">
-                    <ImageIcon className="h-12 w-12 text-gray-400 mb-2" />
-                    <span className="text-gray-500 text-sm">No Image Available</span>
-                  </div>
+                  <img
+                    src={getBusImage(bus.busType, bus.brand)}
+                    alt={`${bus.brand && bus.modelName ? `${bus.brand} ${bus.modelName}` : `${bus.busType} Coach`}`}
+                    className="w-full h-48 object-cover rounded-xl"
+                  />
                 )}
               </div>
 
