@@ -417,6 +417,12 @@ const NotificationBell = () => {
 
 // Category Component
 const Category = () => {
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (categoryName) => {
+    navigate('/bus', { state: { busTypeFilter: categoryName } });
+  };
+
   return (
     <div className='w-full px-6 lg:px-8 py-16 bg-gradient-to-r from-blue-50 to-sky-50'>
       <div className="max-w-7xl mx-auto">
@@ -435,7 +441,11 @@ const Category = () => {
             { name: 'Mini', color: 'from-sky-500 to-blue-500' },
             { name: 'Luxury', color: 'from-blue-500 to-indigo-500' }
           ].map((category, index) => (
-            <div key={index} className="group relative bg-white/70 backdrop-blur-sm rounded-2xl p-6 overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg border border-blue-200/50">
+            <div 
+              key={index} 
+              onClick={() => handleCategoryClick(category.name)}
+              className="group relative bg-white/70 backdrop-blur-sm rounded-2xl p-6 overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg border border-blue-200/50 cursor-pointer"
+            >
               <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-5 group-hover:opacity-10 transition-opacity`}></div>
               <div className="h-40 mb-4 flex items-center justify-center">
                 <Bus className="h-20 w-20 text-gray-400 group-hover:text-blue-600 transition-colors" />

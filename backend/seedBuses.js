@@ -5,6 +5,7 @@ dotenv.config();
 import Bus from './models/bus.js';
 
 const sampleBuses = [
+  // --- Luxury (6 Buses) ---
   {
     busType: 'Luxury',
     brand: 'Volvo',
@@ -28,6 +29,52 @@ const sampleBuses = [
     status: 'Available'
   },
   {
+    busType: 'Luxury',
+    brand: 'Mercedes-Benz',
+    modelName: 'Tourrider',
+    engineNumber: 'ENG-BEN-011',
+    capacity: 45,
+    numberPlate: 'NP-1111',
+    pricePerDay: 45000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Luxury',
+    brand: 'Volvo',
+    modelName: '9700',
+    engineNumber: 'ENG-VOL-012',
+    capacity: 48,
+    numberPlate: 'NP-1222',
+    pricePerDay: 38000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Luxury',
+    brand: 'Scania',
+    modelName: 'Touring',
+    engineNumber: 'ENG-SCA-013',
+    capacity: 49,
+    numberPlate: 'NP-1333',
+    pricePerDay: 42000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Luxury',
+    brand: 'Yutong',
+    modelName: 'T13',
+    engineNumber: 'ENG-YUT-014',
+    capacity: 51,
+    numberPlate: 'NP-1444',
+    pricePerDay: 36000,
+    isActive: true,
+    status: 'Available'
+  },
+
+  // --- Deluxe (6 Buses) ---
+  {
     busType: 'Deluxe',
     brand: 'Ashok Leyland',
     modelName: 'Viking',
@@ -49,6 +96,52 @@ const sampleBuses = [
     isActive: true,
     status: 'Available'
   },
+  {
+    busType: 'Deluxe',
+    brand: 'Isuzu',
+    modelName: 'LT134',
+    engineNumber: 'ENG-ISU-015',
+    capacity: 45,
+    numberPlate: 'NP-1555',
+    pricePerDay: 26000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Deluxe',
+    brand: 'Mitsubishi',
+    modelName: 'Fuso',
+    engineNumber: 'ENG-MIT-016',
+    capacity: 48,
+    numberPlate: 'NP-1666',
+    pricePerDay: 24000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Deluxe',
+    brand: 'King Long',
+    modelName: 'XMQ6127',
+    engineNumber: 'ENG-KIN-017',
+    capacity: 50,
+    numberPlate: 'NP-1777',
+    pricePerDay: 27000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Deluxe',
+    brand: 'Golden Dragon',
+    modelName: 'XML6127',
+    engineNumber: 'ENG-GOL-018',
+    capacity: 49,
+    numberPlate: 'NP-1888',
+    pricePerDay: 23000,
+    isActive: true,
+    status: 'Available'
+  },
+
+  // --- Standard (6 Buses) ---
   {
     busType: 'Standard',
     brand: 'Lanka Ashok Leyland',
@@ -72,6 +165,52 @@ const sampleBuses = [
     status: 'Available'
   },
   {
+    busType: 'Standard',
+    brand: 'Ashok Leyland',
+    modelName: 'Falcon',
+    engineNumber: 'ENG-ASH-019',
+    capacity: 54,
+    numberPlate: 'NP-1999',
+    pricePerDay: 14000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Standard',
+    brand: 'Tata',
+    modelName: 'LPO 1618',
+    engineNumber: 'ENG-TAT-020',
+    capacity: 56,
+    numberPlate: 'NP-2000',
+    pricePerDay: 13000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Standard',
+    brand: 'Eicher',
+    modelName: 'Pro 2049',
+    engineNumber: 'ENG-EIC-021',
+    capacity: 50,
+    numberPlate: 'NP-2111',
+    pricePerDay: 11000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Standard',
+    brand: 'Mahindra',
+    modelName: 'Cruzio',
+    engineNumber: 'ENG-MAH-022',
+    capacity: 48,
+    numberPlate: 'NP-2222',
+    pricePerDay: 12500,
+    isActive: true,
+    status: 'Available'
+  },
+
+  // --- Mini (6 Buses) ---
+  {
     busType: 'Mini',
     brand: 'Toyota',
     modelName: 'Coaster',
@@ -94,6 +233,52 @@ const sampleBuses = [
     status: 'Available'
   },
   {
+    busType: 'Mini',
+    brand: 'Isuzu',
+    modelName: 'Journey',
+    engineNumber: 'ENG-ISU-023',
+    capacity: 29,
+    numberPlate: 'NP-2333',
+    pricePerDay: 17000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Mini',
+    brand: 'Mitsubishi',
+    modelName: 'Rosa',
+    engineNumber: 'ENG-MIT-024',
+    capacity: 26,
+    numberPlate: 'NP-2444',
+    pricePerDay: 16500,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Mini',
+    brand: 'Hyundai',
+    modelName: 'County',
+    engineNumber: 'ENG-HYU-025',
+    capacity: 28,
+    numberPlate: 'NP-2555',
+    pricePerDay: 15500,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Mini',
+    brand: 'JAC',
+    modelName: 'Sunray',
+    engineNumber: 'ENG-JAC-026',
+    capacity: 22,
+    numberPlate: 'NP-2666',
+    pricePerDay: 14500,
+    isActive: true,
+    status: 'Available'
+  },
+
+  // --- Double Decker (6 Buses) ---
+  {
     busType: 'Double Decker',
     brand: 'Alexander Dennis',
     modelName: 'Enviro 400',
@@ -112,6 +297,50 @@ const sampleBuses = [
     capacity: 75,
     numberPlate: 'NB-8024',
     pricePerDay: 50000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Double Decker',
+    brand: 'Wrightbus',
+    modelName: 'StreetDeck',
+    engineNumber: 'ENG-WRI-027',
+    capacity: 82,
+    numberPlate: 'NP-2777',
+    pricePerDay: 53000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Double Decker',
+    brand: 'MAN',
+    modelName: 'Lion\'s City DD',
+    engineNumber: 'ENG-MAN-028',
+    capacity: 78,
+    numberPlate: 'NP-2888',
+    pricePerDay: 52000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Double Decker',
+    brand: 'Scania',
+    modelName: 'OmniCity DD',
+    engineNumber: 'ENG-SCA-029',
+    capacity: 85,
+    numberPlate: 'NP-2999',
+    pricePerDay: 56000,
+    isActive: true,
+    status: 'Available'
+  },
+  {
+    busType: 'Double Decker',
+    brand: 'Neoplan',
+    modelName: 'Skyliner',
+    engineNumber: 'ENG-NEO-030',
+    capacity: 90,
+    numberPlate: 'NP-3000',
+    pricePerDay: 60000,
     isActive: true,
     status: 'Available'
   }

@@ -34,7 +34,7 @@ const Bus = () => {
   const [buses, setBuses] = useState([]);
   const [filteredBuses, setFilteredBuses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [busTypeFilter, setBusTypeFilter] = useState('');
+  const [busTypeFilter, setBusTypeFilter] = useState(location.state?.busTypeFilter || '');
   const [sortBy, setSortBy] = useState('price');
   const [isLoading, setIsLoading] = useState(true);
   const [selectedBus, setSelectedBus] = useState(null);
