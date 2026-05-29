@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements,CardNumberElement,CardExpiryElement,CardCvcElement} from '@stripe/react-stripe-js';
+import { Elements, CardElement, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
-import { 
+import {
   ArrowLeft,
   CreditCard,
   Shield,
@@ -35,7 +35,7 @@ const StripeCardForm = ({ amount, onSuccess, onError }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     if (!stripe || !elements) {
       setError('Stripe not loaded yet. Please wait...');
       return;
@@ -47,10 +47,10 @@ const StripeCardForm = ({ amount, onSuccess, onError }) => {
     try {
       // For demo purposes, simulate Stripe payment without API calls
       console.log('🎉 Simulating Stripe payment for demo...');
-      
+
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // Create mock payment intent
       const mockPaymentIntent = {
         id: 'pi_demo_' + Date.now(),
@@ -58,10 +58,10 @@ const StripeCardForm = ({ amount, onSuccess, onError }) => {
         amount: amount * 100, // Convert to cents
         currency: 'lkr'
       };
-      
+
       console.log('✅ Mock payment successful:', mockPaymentIntent);
       onSuccess(mockPaymentIntent);
-      
+
     } catch (err) {
       const errorMsg = err.message || 'Payment failed. Please try again.';
       setError(errorMsg);
@@ -77,8 +77,8 @@ const StripeCardForm = ({ amount, onSuccess, onError }) => {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Card Details ( Mode)
         </label>
-{/* test         */}
-       
+        {/* test         */}
+
 
         {/* Stripe Card Element */}
         <div className="bg-gray-50 p-6 rounded-2xl w-full shadow-inner">
@@ -102,9 +102,9 @@ const StripeCardForm = ({ amount, onSuccess, onError }) => {
             </div>
           </div>
         </div>
-      
 
-        
+
+
         {error && (
           <div className="flex items-center mt-2 text-red-600 text-sm">
             <AlertCircle className="h-4 w-4 mr-2" />
@@ -126,7 +126,7 @@ const StripeCardForm = ({ amount, onSuccess, onError }) => {
         ) : (
           <>
             <CreditCard className="h-5 w-5 mr-2" />
-            Pay LKR {amount.toLocaleString()} 
+            Pay LKR {amount.toLocaleString()}
           </>
         )}
       </button>
@@ -145,7 +145,7 @@ const StripeCardForm = ({ amount, onSuccess, onError }) => {
 const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   // Test data - Remove this when you have real data
   const testData = {
     booking: { _id: 'test_001', bookingId: 'BK-TEST-001' },
@@ -165,14 +165,14 @@ const Checkout = () => {
   };
 
   const { booking, bus, passengers, searchParams, pricing } = location.state || testData;
-  
+
   // Simplified authentication check - just check if token exists
   useEffect(() => {
     const token = localStorage.getItem('token');
     console.log('🔍 Checking authentication...');
     console.log('🔍 Token exists:', !!token);
     console.log('🔍 Backend URL:', import.meta.env.VITE_BACKEND_URL);
-    
+
     // For testing purposes, just check if token exists
     if (token) {
       console.log('✅ Token found, proceeding to checkout');
@@ -182,7 +182,7 @@ const Checkout = () => {
       setAuthStatus('authenticated'); // Allow checkout even without token for testing
     }
   }, [navigate]);
-  
+
   const [paymentMethod, setPaymentMethod] = useState('stripe');
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState('idle');
@@ -197,13 +197,13 @@ const Checkout = () => {
 
     try {
       console.log('Payment successful:', paymentIntent);
-      
+
       // Call backend API to update booking status
       console.log('🎉 Updating booking status in database...');
-      
+
       const token = localStorage.getItem('token');
       let response;
-      
+
       try {
         // Try the payment endpoint first
         console.log('🔄 Calling payment API for booking:', booking._id);
@@ -220,7 +220,7 @@ const Checkout = () => {
             }
           },
           {
-            headers: { 
+            headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json'
             }
@@ -233,7 +233,7 @@ const Checkout = () => {
         console.error('❌ Payment API failed:', apiError);
         console.error('❌ Error details:', apiError.response?.data);
         console.warn('⚠️ Payment API failed, trying direct update:', apiError.message);
-        
+
         try {
           // Try direct booking update
           response = await axios.put(
@@ -243,7 +243,7 @@ const Checkout = () => {
               bookingStatus: 'Confirmed'
             },
             {
-              headers: { 
+              headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
               }
@@ -266,9 +266,9 @@ const Checkout = () => {
           };
         }
       }
-      
+
       setPaymentStatus('success');
-      
+
       // Redirect after success
       setTimeout(() => {
         navigate('/booking-success', {
@@ -280,8 +280,8 @@ const Checkout = () => {
               bookingStatus: 'Confirmed',
               bookingId: booking.bookingId || 'BK-DEMO-001'
             },
-            payment: { 
-              id: paymentIntent.id, 
+            payment: {
+              id: paymentIntent.id,
               amount: pricing.totalAmount,
               method: 'Stripe',
               status: 'completed'
@@ -291,7 +291,7 @@ const Checkout = () => {
           }
         });
       }, 2000);
-      
+
     } catch (error) {
       console.error('Payment confirmation error:', error);
       setPaymentStatus('error');
@@ -324,13 +324,13 @@ const Checkout = () => {
 
     try {
       console.log('Processing direct payment...');
-      
+
       // Call backend API to update booking status
       console.log('🎉 Updating booking status in database...');
-      
+
       const token = localStorage.getItem('token');
       let response;
-      
+
       try {
         // Try the payment endpoint first
         console.log('🔄 Calling payment API for booking (direct):', booking._id);
@@ -347,7 +347,7 @@ const Checkout = () => {
             }
           },
           {
-            headers: { 
+            headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json'
             }
@@ -360,7 +360,7 @@ const Checkout = () => {
         console.error('❌ Payment API failed (direct):', apiError);
         console.error('❌ Error details:', apiError.response?.data);
         console.warn('⚠️ Payment API failed, trying direct update:', apiError.message);
-        
+
         try {
           // Try direct booking update
           response = await axios.put(
@@ -370,7 +370,7 @@ const Checkout = () => {
               bookingStatus: 'Confirmed'
             },
             {
-              headers: { 
+              headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
               }
@@ -393,9 +393,9 @@ const Checkout = () => {
           };
         }
       }
-      
+
       setPaymentStatus('success');
-      
+
       // Redirect after success
       setTimeout(() => {
         navigate('/booking-success', {
@@ -407,8 +407,8 @@ const Checkout = () => {
               bookingStatus: 'Confirmed',
               bookingId: booking.bookingId || 'BK-DEMO-001'
             },
-            payment: { 
-              id: 'pay_direct_001', 
+            payment: {
+              id: 'pay_direct_001',
               amount: pricing.totalAmount,
               method: 'Quick Payment',
               status: 'completed'
@@ -418,7 +418,7 @@ const Checkout = () => {
           }
         });
       }, 2000);
-      
+
     } catch (error) {
       console.error('Direct payment error:', error);
       setPaymentStatus('error');
@@ -452,7 +452,7 @@ const Checkout = () => {
                 }}
                 className="bg-yellow-500 text-white px-4 py-2 rounded text-sm hover:bg-yellow-600"
               >
-                Skip Authentication 
+                Skip Authentication
               </button>
             </div>
           </div>
@@ -469,15 +469,15 @@ const Checkout = () => {
           <div className="bg-white rounded-2xl p-8 shadow-lg">
             <XCircle className="h-20 w-20 text-red-500 mx-auto mb-6" />
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              {authStatus === 'timeout' ? 'Authentication Timeout' : 
-               authStatus === 'backend_error' ? 'Backend Connection Failed' :
-               authStatus === 'error' ? 'Authentication Error' : 'Authentication Failed'}
+              {authStatus === 'timeout' ? 'Authentication Timeout' :
+                authStatus === 'backend_error' ? 'Backend Connection Failed' :
+                  authStatus === 'error' ? 'Authentication Error' : 'Authentication Failed'}
             </h2>
             <p className="text-gray-600 mb-6">
               {authStatus === 'timeout' ? 'Authentication check took too long. Please try again.' :
-               authStatus === 'backend_error' ? 'Cannot connect to the server. Please check if the backend is running.' :
-               authStatus === 'error' ? 'An error occurred during authentication.' :
-               'Please login again to continue with payment.'}
+                authStatus === 'backend_error' ? 'Cannot connect to the server. Please check if the backend is running.' :
+                  authStatus === 'error' ? 'An error occurred during authentication.' :
+                    'Please login again to continue with payment.'}
             </p>
             <div className="space-y-3">
               <button
@@ -510,7 +510,7 @@ const Checkout = () => {
             <CheckCircle className="h-20 w-20 text-green-500 mx-auto mb-6" />
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Payment Successful! 🎉</h2>
             <p className="text-gray-600 mb-6">
-               payment completed successfully. Redirecting to booking details...
+              payment completed successfully. Redirecting to booking details...
             </p>
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 mx-auto"></div>
           </div>
@@ -531,12 +531,12 @@ const Checkout = () => {
             <ArrowLeft className="mr-2 h-5 w-5" />
             Back
           </button>
-          
+
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900">Payment</h1>
             <p className="text-gray-600 mt-2">Stripe  Mode - No real charges</p>
           </div>
-          
+
           <div className="w-20"></div>
         </div>
 
@@ -548,26 +548,26 @@ const Checkout = () => {
                 <Bus className="h-5 w-5 mr-2 text-blue-600" />
                 Booking Summary
               </h2>
-              
+
               <div className="space-y-3 mb-4">
                 <div className="flex items-center text-gray-700 text-sm">
                   <MapPin className="h-4 w-4 mr-2 text-blue-600" />
                   <span className="font-medium">Route:</span>
                   <span className="ml-2">{searchParams.from} → {searchParams.to}</span>
                 </div>
-                
+
                 <div className="flex items-center text-gray-700 text-sm">
                   <Calendar className="h-4 w-4 mr-2 text-blue-600" />
                   <span className="font-medium">Date:</span>
                   <span className="ml-2">{searchParams.travelDate}</span>
                 </div>
-                
+
                 <div className="flex items-center text-gray-700 text-sm">
                   <Clock className="h-4 w-4 mr-2 text-blue-600" />
                   <span className="font-medium">Time:</span>
                   <span className="ml-2">{searchParams.departureTime}</span>
                 </div>
-                
+
                 <div className="flex items-center text-gray-700 text-sm">
                   <Users className="h-4 w-4 mr-2 text-blue-600" />
                   <span className="font-medium">Passengers:</span>
@@ -586,7 +586,7 @@ const Checkout = () => {
                   <span className="text-gray-700">Base Price:</span>
                   <span className="text-gray-700">LKR {pricing.basePrice.toLocaleString()}</span>
                 </div>
-                
+
                 <div className="flex justify-between items-center pt-2 border-t border-gray-200">
                   <span className="text-lg font-bold text-gray-900">Total Amount:</span>
                   <span className="text-xl font-bold text-green-600">LKR {pricing.totalAmount.toLocaleString()}</span>
@@ -594,54 +594,54 @@ const Checkout = () => {
               </div>
             </div>
 
-             
 
-              {/* Authentication Status Debug */}
-              <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mt-4">
-                <div className="flex items-center mb-4">
-                  <Lock className="h-6 w-6 text-blue-600 mr-2" />
-                  <h3 className="text-lg font-semibold text-blue-800">Authentication Status</h3>
-                </div>
-                <div className="text-blue-700 text-sm space-y-2">
-                  <div>Auth Status: <span className="font-medium">{authStatus}</span></div>
-                  <div>Backend Status: <span className="font-medium">{backendStatus}</span></div>
-                  <div>Token: <span className="font-mono text-xs">{localStorage.getItem('token') ? 'Present' : 'Missing'}</span></div>
-                  <div>Backend URL: <span className="font-mono text-xs">{import.meta.env.VITE_BACKEND_URL}</span></div>
-                </div>
-                
-                {authStatus === 'failed' && (
-                  <div className="mt-4 space-y-2">
-                    <button
-                      onClick={async () => {
-                        const token = localStorage.getItem('token');
-                        console.log('🔍 Manual auth test...');
-                        try {
-                          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users/me`, {
-                            headers: { Authorization: `Bearer ${token}` }
-                          });
-                          console.log('✅ Manual test successful:', response.data);
-                          setAuthStatus('authenticated');
-                        } catch (error) {
-                          console.error('❌ Manual test failed:', error);
-                          alert(`Auth test failed: ${error.message}`);
-                        }
-                      }}
-                      className="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700"
-                    >
-                      Test Authentication
-                    </button>
-                    <button
-                      onClick={() => {
-                        localStorage.removeItem('token');
-                        navigate('/login');
-                      }}
-                      className="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700 ml-2"
-                    >
-                      Go to Login
-                    </button>
-                  </div>
-                )}
+
+            {/* Authentication Status Debug */}
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mt-4">
+              <div className="flex items-center mb-4">
+                <Lock className="h-6 w-6 text-blue-600 mr-2" />
+                <h3 className="text-lg font-semibold text-blue-800">Authentication Status</h3>
               </div>
+              <div className="text-blue-700 text-sm space-y-2">
+                <div>Auth Status: <span className="font-medium">{authStatus}</span></div>
+                <div>Backend Status: <span className="font-medium">{backendStatus}</span></div>
+                <div>Token: <span className="font-mono text-xs">{localStorage.getItem('token') ? 'Present' : 'Missing'}</span></div>
+                <div>Backend URL: <span className="font-mono text-xs">{import.meta.env.VITE_BACKEND_URL}</span></div>
+              </div>
+
+              {authStatus === 'failed' && (
+                <div className="mt-4 space-y-2">
+                  <button
+                    onClick={async () => {
+                      const token = localStorage.getItem('token');
+                      console.log('🔍 Manual auth test...');
+                      try {
+                        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users/me`, {
+                          headers: { Authorization: `Bearer ${token}` }
+                        });
+                        console.log('✅ Manual test successful:', response.data);
+                        setAuthStatus('authenticated');
+                      } catch (error) {
+                        console.error('❌ Manual test failed:', error);
+                        alert(`Auth test failed: ${error.message}`);
+                      }
+                    }}
+                    className="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700"
+                  >
+                    Test Authentication
+                  </button>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem('token');
+                      navigate('/login');
+                    }}
+                    className="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700 ml-2"
+                  >
+                    Go to Login
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Right Column - Payment Form */}
@@ -656,21 +656,28 @@ const Checkout = () => {
               {/* Payment Method Selection */}
               <div className="mb-8">
                 <label className="text-gray-700 text-lg font-semibold mb-4 block">Payment Method</label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {[
-                    { 
-                      id: 'stripe', 
-                      label: 'Credit/Debit Card', 
-                      icon: CreditCard, 
+                    {
+                      id: 'stripe',
+                      label: 'Credit/Debit Card',
+                      icon: CreditCard,
                       description: 'Test Stripe payment integration',
                       badge: 'Test'
                     },
-                    { 
-                      id: 'direct', 
-                      label: 'Quick Payment', 
-                      icon: Zap, 
+                    {
+                      id: 'direct',
+                      label: 'Quick Payment',
+                      icon: Zap,
                       description: 'Simulate quick payment',
                       badge: 'Simulate'
+                    },
+                    {
+                      id: 'cash',
+                      label: 'Cash Payment',
+                      icon: Banknote,
+                      description: 'Pay with cash upon boarding',
+                      badge: 'Cash'
                     },
                   ].map(method => (
                     <label key={method.id} className="cursor-pointer">
@@ -682,18 +689,15 @@ const Checkout = () => {
                         onChange={(e) => setPaymentMethod(e.target.value)}
                         className="sr-only"
                       />
-                      <div className={`p-5 rounded-xl border-2 transition-all ${
-                        paymentMethod === method.id
-                          ? 'border-blue-500 bg-blue-50 shadow-md'
-                          : 'border-gray-200 bg-gray-50 hover:border-gray-300'
-                      }`}>
+                      <div className={`p-5 rounded-xl border-2 transition-all ${paymentMethod === method.id
+                        ? 'border-blue-500 bg-blue-50 shadow-md'
+                        : 'border-gray-200 bg-gray-50 hover:border-gray-300'
+                        }`}>
                         <div className="flex items-center">
-                          <div className={`p-3 rounded-lg mr-4 ${
-                            paymentMethod === method.id ? 'bg-blue-100' : 'bg-white'
-                          }`}>
-                            <method.icon className={`h-6 w-6 ${
-                              paymentMethod === method.id ? 'text-blue-600' : 'text-gray-600'
-                            }`} />
+                          <div className={`p-3 rounded-lg mr-4 ${paymentMethod === method.id ? 'bg-blue-100' : 'bg-white'
+                            }`}>
+                            <method.icon className={`h-6 w-6 ${paymentMethod === method.id ? 'text-blue-600' : 'text-gray-600'
+                              }`} />
                           </div>
                           <div>
                             <div className="text-gray-900 font-semibold">{method.label}</div>
@@ -744,7 +748,7 @@ const Checkout = () => {
                         Quick payment simulation - No card details required
                       </p>
                     </div>
-                    
+
                     <button
                       onClick={handleDirectPayment}
                       disabled={isProcessing || !stripe}
@@ -763,11 +767,43 @@ const Checkout = () => {
                       )}
                     </button>
                   </div>
+                ) : paymentMethod === 'cash' ? (
+                  <div className="space-y-6">
+                    <div className="p-5 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-start gap-4">
+                      <div className="p-3 bg-emerald-100 rounded-xl text-emerald-700 flex-shrink-0">
+                        <Banknote className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-emerald-900 text-lg">Cash on Boarding</h4>
+                        <p className="text-sm text-emerald-700 mt-1 leading-relaxed">
+                          Your booking will be confirmed immediately. You can pay the total amount of <strong>LKR {pricing.totalAmount.toLocaleString()}</strong> in cash to the bus conductor or driver when you board the bus.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <button
+                      onClick={handleCashPayment}
+                      disabled={isProcessing}
+                      className="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.01] active:scale-[0.99] transition-all"
+                    >
+                      {isProcessing ? (
+                        <>
+                          <Loader className="h-6 w-6 mr-2 animate-spin" />
+                          Confirming Booking...
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle className="h-6 w-6 mr-2" />
+                          Confirm Booking (Pay Cash: LKR {pricing.totalAmount.toLocaleString()})
+                        </>
+                      )}
+                    </button>
+                  </div>
                 ) : null}
               </div>
 
               {/* Test Instructions */}
-              
+
             </div>
           </div>
         </div>

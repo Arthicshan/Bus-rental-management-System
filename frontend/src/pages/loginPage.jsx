@@ -163,7 +163,7 @@ const LoginPage = () => {
                 <div className="space-y-5">
                   <div>
                     <label htmlFor="username" className="block text-sm font-semibold text-slate-700 mb-3">
-                      Username
+                      Username or Email
                     </label>
                     <input
                       id="username"
@@ -171,7 +171,7 @@ const LoginPage = () => {
                       type="text"
                       required
                       className="w-full px-5 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-all duration-200 bg-gray-50/50 focus:bg-white text-slate-800 placeholder-slate-500 shadow-sm"
-                      placeholder="Enter your username"
+                      placeholder="Enter your username or email"
                       value={credentials.username}
                       onChange={handleChange}
                       disabled={loading}

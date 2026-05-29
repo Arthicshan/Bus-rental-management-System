@@ -174,15 +174,20 @@ const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    console.log('Login attempt for username:', username);
+    console.log('Login attempt for username or email:', username);
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({
+      $or: [
+        { username: username },
+        { email: username }
+      ]
+    });
     if (!user) {
-      console.log('User not found:', username);
+      console.log('User not found with username or email:', username);
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
-    console.log('User found:', user.username, 'Role:', user.role);
+    console.log('User found:', user.username, 'Email:', user.email, 'Role:', user.role);
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
